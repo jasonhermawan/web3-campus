@@ -1,115 +1,312 @@
-import { Box } from "@mantine/core";
 import React, { useState } from "react";
+import { Box, Container, SimpleGrid, Text, Title, ThemeIcon, Group, ActionIcon } from '@mantine/core';
+import { 
+  IconGauge, 
+  IconUser, 
+  IconCookie, 
+  IconLock, 
+  IconMessage2,
+  IconBrandInstagram, 
+  IconBrandTwitter, 
+  IconBrandYoutube 
+} from '@tabler/icons-react';
+import { MantineLogo } from '@mantinex/mantine-logo';
 import Header from "@/components/Header";
+import classes from './styles/FeaturesAsymmetrical.module.css';
+import footerClasses from './styles/FooterLinks.module.css';
 import { 
   CreditCard, 
   Send, 
   MoreHorizontal, 
   Eye, 
   EyeOff, 
-  ArrowDownLeft,
-  Shield,
-  Zap,
-  CheckCircle,
-  Users,
-  BookOpen,
-  Wallet,
-  GraduationCap,
-  ArrowRight,
-  Sparkles
+  ArrowDownLeft
 } from 'lucide-react';
 
+// Mock data for features
+const MOCKDATA = [
+  {
+    icon: IconGauge,
+    title: 'Lightning Fast Processing',
+    description: 'Process payments in under 2 seconds with our optimized infrastructure. Handle millions of transactions simultaneously without delays.',
+    highlight: '< 2 sec',
+    color: 'from-blue-500 to-cyan-500'
+  },
+  {
+    icon: IconLock,
+    title: 'Bank-Level Security',
+    description: 'Military-grade encryption and multi-layer security protocols protect every transaction with real-time fraud detection.',
+    highlight: '256-bit SSL',
+    color: 'from-green-500 to-emerald-500'
+  },
+  {
+    icon: IconUser,
+    title: 'Privacy First',
+    description: 'Zero data collection policy. Your financial information stays private with end-to-end encryption and no tracking.',
+    highlight: '0% Data Sold',
+    color: 'from-purple-500 to-pink-500'
+  },
+  {
+    icon: IconCookie,
+    title: 'No Hidden Fees',
+    description: 'Transparent pricing with no setup fees, no monthly charges, and no hidden costs. Pay only for successful transactions.',
+    highlight: '0% Setup Fee',
+    color: 'from-orange-500 to-red-500'
+  },
+  {
+    icon: IconMessage2,
+    title: 'Global Support',
+    description: '24/7 multilingual customer support across 50+ countries with dedicated account managers for enterprise clients.',
+    highlight: '24/7 Support',
+    color: 'from-indigo-500 to-blue-500'
+  },
+  {
+    icon: IconGauge,
+    title: 'Multi-Currency',
+    description: 'Accept payments in 150+ currencies including major cryptocurrencies. Automatic conversion with real-time rates.',
+    highlight: '150+ Currencies',
+    color: 'from-teal-500 to-green-500'
+  },
+];
+
+// Footer data
+const footerData = [
+  {
+    title: 'About',
+    links: [
+      { label: 'Features', link: '#' },
+      { label: 'Pricing', link: '#' },
+      { label: 'Support', link: '#' },
+      { label: 'Forums', link: '#' },
+    ],
+  },
+  {
+    title: 'Project',
+    links: [
+      { label: 'Contribute', link: '#' },
+      { label: 'Media assets', link: '#' },
+      { label: 'Changelog', link: '#' },
+      { label: 'Releases', link: '#' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { label: 'Join Discord', link: '#' },
+      { label: 'Follow on Twitter', link: '#' },
+      { label: 'Email newsletter', link: '#' },
+      { label: 'GitHub discussions', link: '#' },
+    ],
+  },
+];
+
+// Feature component
+function Feature({ icon: Icon, title, description, highlight, color }) {
+  return (
+    <div className="group relative bg-white/60 backdrop-blur-sm border border-white/30 rounded-2xl p-6 hover:bg-white/80 transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+      {/* Background gradient on hover */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-5 rounded-2xl transition-all duration-500`} />
+      
+      {/* Icon with gradient background */}
+      <div className={`relative w-14 h-14 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+        <Icon size={24} stroke={1.5} className="text-white" />
+      </div>
+      
+      {/* Title */}
+      <Text fw={600} size="lg" mb={2} className="text-gray-900 group-hover:text-black transition-colors">
+        {title}
+      </Text>
+      
+      {/* Highlight badge */}
+      <div className={`inline-flex items-center px-2 py-1 rounded-full bg-gradient-to-r ${color} text-white text-xs font-semibold mb-3`}>
+        {highlight}
+      </div>
+      
+      {/* Description */}
+      <Text size="sm" c="dimmed" lh={1.6} className="group-hover:text-gray-600 transition-colors">
+        {description}
+      </Text>
+      
+      {/* Hover arrow indicator */}
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+        <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
+          <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Features Grid component
+function FeaturesGrid() {
+  const features = MOCKDATA.map((feature, index) => (
+    <Feature {...feature} key={index} />
+  ));
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-br from-blue-400/20 via-purple-400/25 to-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-indigo-400/15 via-cyan-400/20 to-teal-400/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-br from-purple-400/20 via-pink-400/25 to-rose-400/20 rounded-full blur-2xl animate-pulse delay-500"></div>
+      </div>
+
+      <Container size="xl" className="relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center space-x-2 mb-4">
+            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+            <span className="text-blue-600 font-semibold text-sm tracking-wide uppercase">Features</span>
+            <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+          </div>
+          
+          <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            Why Choose Our
+            <span className="relative ml-3">
+              <span className="relative z-10">Payment Gateway</span>
+              <div className="absolute bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full"></div>
+            </span>
+          </h2>
+          
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Built for modern businesses, our payment gateway combines cutting-edge technology 
+            with unparalleled security to deliver the best payment experience.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {features}
+        </div>
+
+        {/* Stats Section */}
+        <div className="bg-white/70 backdrop-blur-sm border border-white/50 rounded-3xl p-8 shadow-xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="group">
+              <div className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                $2.5B+
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Processed Volume</div>
+            </div>
+            <div className="group">
+              <div className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                99.9%
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Uptime</div>
+            </div>
+            <div className="group">
+              <div className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                50K+
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Active Merchants</div>
+            </div>
+            <div className="group">
+              <div className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                180+
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Countries</div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center mt-12">
+          <button className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+            <span>Start Integration</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <p className="text-sm text-gray-500 mt-3">No setup fees • 5-minute integration • Free developer support</p>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+// Footer component
+function FooterLinks() {
+  const groups = footerData.map((group) => {
+    const links = group.links.map((link, index) => (
+      <Text
+        key={index}
+        className={footerClasses.link}
+        component="a"
+        href={link.link}
+        onClick={(event) => event.preventDefault()}
+      >
+        {link.label}
+      </Text>
+    ));
+
+    return (
+      <div className={footerClasses.wrapper} key={group.title}>
+        <Text className={footerClasses.title}>{group.title}</Text>
+        {links}
+      </div>
+    );
+  });
+
+  return (
+    <footer className={footerClasses.footer}>
+      <Container className={footerClasses.inner}>
+        <div className={footerClasses.logo}>
+          <MantineLogo size={30} />
+          <Text size="xs" c="dimmed" className={footerClasses.description}>
+            Build fully functional accessible web applications faster than ever
+          </Text>
+        </div>
+        <div className={footerClasses.groups}>{groups}</div>
+      </Container>
+      <Container className={footerClasses.afterFooter}>
+        <Text c="dimmed" size="sm">
+          © 2024 PaymentGateway. All rights reserved.
+        </Text>
+
+        <Group gap={0} className={footerClasses.social} justify="flex-end" wrap="nowrap">
+          <ActionIcon size="lg" color="gray" variant="subtle">
+            <IconBrandTwitter size={18} stroke={1.5} />
+          </ActionIcon>
+          <ActionIcon size="lg" color="gray" variant="subtle">
+            <IconBrandYoutube size={18} stroke={1.5} />
+          </ActionIcon>
+          <ActionIcon size="lg" color="gray" variant="subtle">
+            <IconBrandInstagram size={18} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+      </Container>
+    </footer>
+  );
+}
+
+// Payment Action Button component
+const PaymentActionButton = ({ icon: Icon, onClick, ariaLabel }) => (
+  <button 
+    className="bg-gray-100 hover:bg-gray-200 rounded-xl p-3 transition-all duration-300 hover:scale-105"
+    onClick={onClick}
+    aria-label={ariaLabel}
+  >
+    <Icon className="w-5 h-5 text-gray-600 mx-auto mb-1" />
+  </button>
+);
+
+// Main Landing component
 const Landing = () => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
-
-  const features = [
-    {
-      title: "Secure Payments",
-      description: "Bank-level security with end-to-end encryption. Your transactions are protected with advanced fraud detection.",
-      icon: Shield,
-      gradient: "from-blue-50 to-cyan-50",
-      border: "border-blue-100",
-      iconBg: "bg-blue-500"
-    },
-    {
-      title: "Instant Transfers",
-      description: "Lightning-fast payments with real-time processing. Get paid instantly without waiting for bank clearances.",
-      icon: Zap,
-      gradient: "from-purple-50 to-pink-50",
-      border: "border-purple-100",
-      iconBg: "bg-purple-500"
-    },
-    {
-      title: "Easy Integration",
-      description: "Simple API integration with comprehensive documentation. Get up and running in minutes, not hours.",
-      icon: CheckCircle,
-      gradient: "from-green-50 to-emerald-50",
-      border: "border-green-100",
-      iconBg: "bg-green-500"
-    },
-    {
-      title: "Multi-User Support",
-      description: "Manage multiple team members and clients with role-based access control and permission management.",
-      icon: Users,
-      gradient: "from-orange-50 to-red-50",
-      border: "border-orange-100",
-      iconBg: "bg-orange-500"
-    },
-    {
-      title: "Multiple Payment Methods",
-      description: "Accept payments via credit cards, debit cards, UPI, net banking, and digital wallets all in one place.",
-      icon: CreditCard,
-      gradient: "from-teal-50 to-cyan-50",
-      border: "border-teal-100",
-      iconBg: "bg-teal-500"
-    },
-    {
-      title: "Detailed Analytics",
-      description: "Comprehensive reports and analytics to track your payments, revenue trends, and business insights.",
-      icon: BookOpen,
-      gradient: "from-indigo-50 to-purple-50",
-      border: "border-indigo-100",
-      iconBg: "bg-indigo-500"
-    }
-  ];
 
   const toggleBalanceVisibility = () => {
     setIsBalanceVisible(!isBalanceVisible);
   };
-
-  const handleWalletConnect = () => {
-    setIsWalletConnected(!isWalletConnected);
-  };
-
-  const FeatureCard = ({ feature }) => {
-    const IconComponent = feature.icon;
-    
-    return (
-      <div className={`bg-gradient-to-br ${feature.gradient} p-8 rounded-2xl border ${feature.border} hover:shadow-lg transition-all duration-300 hover:scale-105`}>
-        <div className={`w-12 h-12 ${feature.iconBg} rounded-xl flex items-center justify-center mb-4`}>
-          <IconComponent className="w-6 h-6 text-white" />
-        </div>
-        <h3 className="text-xl font-semibold text-black mb-3">{feature.title}</h3>
-        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-      </div>
-    );
-  };
-
-  const PaymentActionButton = ({ icon: Icon, onClick }) => (
-    <button 
-      className="bg-gray-100 hover:bg-gray-200 rounded-xl p-3 transition-all duration-300 hover:scale-105"
-      onClick={onClick}
-    >
-      <Icon className="w-5 h-5 text-gray-600 mx-auto mb-1" />
-    </button>
-  );
 
   return (
     <>
       <Box>
         <Header withBorder={false} />
         
+        {/* Hero Section */}
         <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-pink-50 relative overflow-hidden">
           {/* Background Effects */}
           <div className="absolute inset-0">
@@ -195,9 +392,21 @@ const Landing = () => {
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 mb-6">
-                  <PaymentActionButton icon={Send} onClick={() => console.log('Send clicked')} />
-                  <PaymentActionButton icon={ArrowDownLeft} onClick={() => console.log('Receive clicked')} />
-                  <PaymentActionButton icon={CreditCard} onClick={() => console.log('Card clicked')} />
+                  <PaymentActionButton 
+                    icon={Send} 
+                    onClick={() => console.log('Send clicked')} 
+                    ariaLabel="Send payment"
+                  />
+                  <PaymentActionButton 
+                    icon={ArrowDownLeft} 
+                    onClick={() => console.log('Receive clicked')} 
+                    ariaLabel="Receive payment"
+                  />
+                  <PaymentActionButton 
+                    icon={CreditCard} 
+                    onClick={() => console.log('Card clicked')} 
+                    ariaLabel="Card options"
+                  />
                 </div>
 
                 <button className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300">
@@ -223,139 +432,11 @@ const Landing = () => {
         </div>
       </Box>
 
-      {/* Student Login Section */}
-      <section className="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-400/20 via-purple-400/30 to-pink-400/20 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-indigo-400/25 via-cyan-400/35 to-teal-400/25 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            {/* Left Side - Content */}
-            <div className="lg:w-1/2">
-              <div className="flex items-center space-x-2 mb-4">
-                <GraduationCap className="w-6 h-6 text-indigo-600" />
-                <span className="text-indigo-600 font-semibold text-sm">— For Students</span>
-              </div>
-              
-              <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
-                Student Portal<br />
-                <span className="relative text-indigo-600">
-                  Access
-                  <div className="absolute bottom-2 left-0 w-full h-1 bg-indigo-600 rounded-full"></div>
-                </span>
-              </h2>
-              
-              <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                Connect your wallet to access exclusive student features, manage payments, 
-                and unlock special discounts on educational services.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center space-x-3">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">Access to educational payment plans</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">Special student discounts and offers</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">Secure transactions with crypto payments</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side - Wallet Connection */}
-            <div className="lg:w-1/2 flex justify-center">
-              <div className="bg-white/80 backdrop-blur-sm border border-white/50 rounded-3xl p-8 w-full max-w-md shadow-2xl">
-                <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Wallet className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-black mb-2">Student Login</h3>
-                  <p className="text-gray-600">Connect your wallet to get started</p>
-                </div>
-
-                {!isWalletConnected ? (
-                  <div className="space-y-4">
-                    <button 
-                      onClick={handleWalletConnect}
-                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center space-x-2 group"
-                    >
-                      <Wallet className="w-5 h-5" />
-                      <span>Connect Wallet</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500 mb-4">Supported wallets:</p>
-                      <div className="flex justify-center space-x-4">
-                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-xs font-bold">MM</span>
-                        </div>
-                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-xs font-bold">CB</span>
-                        </div>
-                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-xs font-bold">WC</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center space-y-4">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                      <CheckCircle className="w-8 h-8 text-green-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-black mb-1">Wallet Connected!</h4>
-                      <p className="text-sm text-gray-600 mb-4">0x742d...5B4a</p>
-                    </div>
-                    <button className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 flex items-center justify-center space-x-2">
-                      <Sparkles className="w-4 h-4" />
-                      <span>Access Student Portal</span>
-                    </button>
-                    <button 
-                      onClick={handleWalletConnect}
-                      className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-                    >
-                      Disconnect Wallet
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-black mb-4">Feature Overview</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Discover the powerful features that make PayEasy the perfect payment solution for freelancers and businesses
-            </p>
-          </div>
+      <FeaturesGrid />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} feature={feature} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Footer Section */}
+      <FooterLinks />
     </>
   );
 };

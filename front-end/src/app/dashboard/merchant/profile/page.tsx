@@ -1,4 +1,4 @@
-import MerchantDashboardProfile from "@/features/merchant";
+import MerchantDashboardProfile from "@/features/merchant/profile";
 import React from "react";
 
 const MerchantDashboardProfilePage = () => {
