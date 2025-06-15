@@ -35,6 +35,7 @@ export default function RootLayout({
         <Web3Provider>
           <MantineProvider>{children}</MantineProvider>
         </Web3Provider>
+          <script src="https://cdn.tailwindcss.com"></script>
       </body>
     </html>
   );
